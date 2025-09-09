@@ -13,11 +13,11 @@ git clone <url-repositori-hasil-fork>
 5. **Buat Cabang (Branch) Baru:** Masuk ke direktori repositori yang telah di-kloning. Lalu buat cabang sesuai nim masing-masing.
 ```bash
 cd LAB-WEB-09-2025
-git checkout -b H071231nnn # Sesuaikan dengan NIM masing-masing
+git checkout -b H071241nnn # Sesuaikan dengan NIM masing-masing
 ```
 6. **Masuk ke Folder:** Masuk ke directory/folder sesuai NIM.
 ```bash
-cd H071231nnn # Sesuaikan dengan NIM masing-masing
+cd H071241nnn # Sesuaikan dengan NIM masing-masing
 ```
 7. **Buat Folder Pertemuan:** Buatlah folder, misal "Pertemuan-1"
 8. **Lakukan Perubahan:** Masuk ke folder "Pertemuan-1", mulai mengedit atau menambahkan berkas (folder maupun file tugas) sesuai dengan instruksi tugas yang diberikan.
@@ -32,7 +32,7 @@ git commit -m "Task 1: HTML as Skeleton"  # Sesuaikan pesan dengan tugas yang ka
 Note: Untuk cek status file apakah sudah ditambahkan maupun dikomit, bisa dilakukan dengan `git status`
 11. **Push ke GitHub:** Push cabang baru yang telah kamu buat ke repositori GitHub.
 ```bash
-git push -u origin H071231nnn # Sesuaikan dengan NIM masing-masing
+git push -u origin H071241nnn # Sesuaikan dengan NIM masing-masing
 ```
 12. **Buka Pull Request:** Di halaman repositori akunmu, akan ada pemberitahuan untuk melakukan Pull Request. Klik tautan tersebut lalu lakukan Pull Request ke repositori utama ini.
 
