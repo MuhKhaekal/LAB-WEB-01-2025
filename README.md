@@ -12,7 +12,7 @@ git clone <url-repositori-hasil-fork>
 ```
 5. **Buat Cabang (Branch) Baru:** Masuk ke direktori repositori yang telah di-kloning. Lalu buat cabang sesuai nim masing-masing.
 ```bash
-cd LAB-WEB-09-2025
+cd LAB-WEB-01-2025
 git checkout -b H071241nnn # Sesuaikan dengan NIM masing-masing
 ```
 6. **Masuk ke Folder:** Masuk ke directory/folder sesuai NIM.
@@ -39,5 +39,5 @@ git push -u origin H071241nnn # Sesuaikan dengan NIM masing-masing
 ## Tips Tambahan
 - Pastikan untuk memberi nama yang deskriptif pada pesan commit tugas.
 - Gunakan pesan commit yang jelas agar mudah dimengerti olehmu suatu saat nanti.
-- Terima kasih sudah mengerjakan tugas ygy!
+
 # -- LAB-WEB-01-2025 --
