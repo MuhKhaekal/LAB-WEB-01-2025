@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niefzxz-Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">NIEFZXZ</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="contact-information">
+        <h2>Contact Information</h2>
+        <table>
+            <tr>
+                <td>Email: </td>
+                <td>muh.hanief.1974@gmail.com</td>
+            </tr>
+            <tr>
+                <td>Handphone: </td>
+                <td>087812170240</td>
+            </tr>
+            <tr>
+                <td>Instagram: </td>
+                <td><a href="https://www.instagram.com/mhnief?igsh=MWkycGdib25wcm42ZQ==" >@mhnief</a></td>
+            </tr>
+            <tr>
+                <td>GitHub: </td>
+                <td><a href="https://github.com/Hanifzx" >github.com/Hanifzx</a></td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="contact-form">
+        <h2>Contact Form</h2>
+        <form>
+            <label for="nama">Nama: </label>
+            <input type="text" id="nama" name="nama" required> <br>
+
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email" required> <br>
+
+            <label for="no-hp">No. HP: </label>
+            <input type="tel" id="no-hp" name="no-hp" required> <br>
+
+            <label>Tipe pesan</label>
+            <div class="radio-group">
+                <label for="pertanyaan">
+                    <input type="radio" id="pertanyaan" name="tipe" value="Pertanyaan" required>
+                    Pertanyaan
+                </label>
+                <label for="kritik">
+                    <input type="radio" id="kritik" name="tipe" value="Kritik" required>
+                    Kritik
+                </label>
+                <label for="saran">
+                    <input type="radio" id="saran" name="tipe" value="Saran" required>
+                    Saran
+                </label>
+                <label for="kerja sama">
+                    <input type="radio" id="kerja sama" name="tipe" value="Kerja sama" required>
+                    Kerja sama
+                </label>
+            </div>
+
+            <label for="pesan">Pesan: </label> <br>
+            <textarea id="pesan" name="pesan" rows="4" cols="50" required></textarea> <br>
+
+            <div class="checkbox">
+                <input type="checkbox" id="setuju" name="setuju" required>
+                <label for="setuju">Saya menyetujui data saya digunakan untuk keperluan kontak.</label>
+            </div>
+
+            <button type="submit">Kirim</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Muh. Hanif Nurmahdin. All rights reserved.</p>
+        <p>
+            <a href="https://instagram.com/mhnief" id="ig">Instagram</a> |
+            <a href="https://github.com/Hanifzx" id="github">GitHub</a>
+        </p>
+    </footer>
+</body>
+</html>
