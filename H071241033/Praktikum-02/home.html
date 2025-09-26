@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>antiNRML</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-stone-950 text-white font-sans">
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 w-full bg-stone-900/80 backdrop-blur-md shadow z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center h-14 md:h-16 px-2 sm:px-5">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <img src="/assets/images/anti_nrml.jpg" alt="antinrml logo" class="h-9 w-9 md:h-11 md:w-11 rounded-full">
+            </div>
+
+            <!-- Nav -->
+            <nav class="hidden sm:flex gap-8 text-sm md:text-base font-medium">
+                <a href="#hero" class="hover:text-purple-500 transition">Home</a>
+                <a href="#about" class="hover:text-purple-500 transition">About</a>
+                <a href="#tracklist" class="hover:text-purple-500 transition">Tracklist</a>
+                <a href="#mv" class="hover:text-purple-500 transition">MV</a>
+                <a href="#contact" class="hover:text-purple-500 transition">Contact</a>
+            </nav>
+
+            <!-- CTA -->
+            <div>
+                <a href="https://open.spotify.com/album/45uKX8IYbs9w5jbDNrRp4K?si=nYSb-9rGQwOfKzJCdK7vdw" 
+                class="bg-purple-800 px-3 py-1 md:px-4 md:py-2 rounded-3xl text-xs sm:text-sm md:text-base font-semibold hover:bg-purple-900 transition duration-300"
+                target="_blank">Listen on Spotify</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section id="hero" class="relative h-screen mt-8 flex flex-col items-center justify-center text-center space-y-32">
+            <!-- Background IMG -->
+            <img src="/assets/images/puting beliung pict hd.jpg" alt="Puting Beliung picture" 
+                class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 
+                bg-gradient-to-t from-stone-950 via-stone-950/80 to-transparent 
+                sm:bg-gradient-to-t sm:from-stone-950 sm:via-stone-950/70 sm:to-transparent">
+            </div>
+            <!-- CTA -->
+            <div class="relative z-10">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 md:mb-9">Puting Beliung</h1>
+                <a href="https://open.spotify.com/album/45uKX8IYbs9w5jbDNrRp4K?si=n-u1h7TCQNeyHrkuQTVGWA" 
+                    target="_blank"
+                    class="bg-green-500 text-white px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-3xl text-xs sm:text-base font-semibold hover:bg-green-600 transition">
+                    Listen on Spotify
+                </a>
+            </div>
+            <!-- Arrow Down-->
+            <a href="#about" class="relative z-10 md:hover:scale-150 transition duration-300">
+                <svg class="text-white h-8 w-8 animate-bounce" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                    <path fill="currentColor" d="M169.4 502.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 402.7 224 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 370.7-105.4-105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+                </svg>
+            </a>
+        </section>
+    
+        <!-- ABOUT -->
+        <section id="about" class="py-24 px-6 md:px-10 scroll-mt-0 md:scroll-mt-20 
+                    bg-gradient-to-b from-stone-950 via-stone-950/90 to-stone-800">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+                <!-- Image -->
+                <div class="flex justify-center">
+                    <img src="/assets/images/tenxi.jpg" alt="Tenxi picture"
+                        class="h-60 w-60 sm:h-80 sm:w-80 object-cover border-4 border-purple-900 rounded-xl shadow-lg hover:scale-105 transition duration-300">
+                </div>
+                <!-- Text -->
+                <div class="md:col-span-2 flex flex-col space-y-6 text-center md:text-left">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-400">About the Album</h2>
+                    <p class="text-xs sm:text-base md:text-base leading-relaxed">
+                    <span class="font-semibold">Puting Beliung</span> is Tenxi’s latest album, released in August 2025. 
+                    With 13 dynamic tracks, the record introduces <strong>Hipdut</strong>, a groundbreaking fusion of hip-hop and dangdut. 
+                    This album blends infectious beats, raw emotions, and cultural rhythm, delivering a fresh sound that storms through today’s music scene.
+                    </p>
+                    <!-- CTA -->
+                    <div>
+                        <a href="https://open.spotify.com/artist/6vP4azTCk053nGL0xAYnVH" target="_blank" 
+                            class="bg-purple-800 px-6 py-3 rounded-3xl text-xs sm:text-base font-semibold hover:bg-purple-900 transition duration-300">
+                            Explore More from Tenxi
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- TRACKLIST -->
+        <section id="tracklist" class="py-20 px-10 bg-stone-800">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-400 mb-10 text-center">Tracklist</h2>
+            <div class="border-4 border-purple-700 rounded-3xl p-10  max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 md:justify-center gap-4 md:gap-10 max-w-4xl mx-auto text-xs sm:text-base">
+                    <ol class="space-y-4">
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>1. mejikuhibiniu</span><span class="text-stone-400">3:16</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>2. Bintang 5</span><span class="text-stone-400">4:06</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>3. Bayangno Awakmu</span><span class="text-stone-400">2:15</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>4. Garam dan Madu (Sakit Dadaku)</span><span class="text-stone-400">3:04</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>5. Buku Baru (Interlude)</span><span class="text-stone-400">1.20</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>6. Puting Beliung</span><span class="text-stone-400">2:56</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>7. Coba Lagi</span><span class="text-stone-400">1:51</span>
+                        </li>
+                    </ol>
+                    <ol start="8" class="space-y-4">
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>8. Apa Lagi</span><span class="text-stone-400">2:05</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>9. Berubah</span><span class="text-stone-400">3:21</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400">
+                            <span>10. Paling Sabi</span><span class="text-stone-400">3:25</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>11. Dikasih Akses</span><span class="text-stone-400">2:33</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>12. Yodah ku Selingkuh</span><span class="text-stone-400">2:38</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-700 pb-2 md:hover:scale-105 transition duration-300
+                        hover:text-purple-400 transition duration-300">
+                            <span>13. hoRRReg</span><span class="text-stone-400">3:08</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    
+        <!-- YOUTUBE VIDEO -->
+        <section id="mv" class="py-20 px-10 bg-stone-950">
+            <h2 class="text-xl sm:text-3xl font-bold text-purple-400 mb-10 text-center">Official Tenxi Music Videos</h2>
+            <!-- YOUTUBE THUMBNAIL -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto justify-items-center">
+                <a href="https://youtu.be/qnbwUiSudIk?si=i1IFv3g4sXVEMlV8" target="_blank">
+                    <img src="https://img.youtube.com/vi/qnbwUiSudIk/hqdefault.jpg" alt="Tenxi Music Video"
+                    class="border-2 border-purple-700 rounded-xl w-full aspect-video object-cover hover:scale-105 transition duration-300
+                    ">
+                </a>
+                <a href="https://youtu.be/N7LpNIDCyCA?si=OIhPiRRYebscoQ6b" target="_blank">
+                    <img src="https://img.youtube.com/vi/N7LpNIDCyCA/hqdefault.jpg"
+                    class="border-2 border-purple-700 rounded-xl w-full aspect-video object-cover hover:scale-105 transition duration-300">
+                </a>
+                <a href="https://youtu.be/vDSUmX2zOGk?si=HVrd-8vqnd06YLTY" target="_blank">
+                    <img src="https://img.youtube.com/vi/vDSUmX2zOGk/hqdefault.jpg"
+                    class="border-2 border-purple-700 rounded-xl w-full aspect-video object-cover hover:scale-105 transition duration-300">
+                </a>
+                <a href="https://youtu.be/k0ubS6BhHu4?si=bJLZqEPcb9rIFen_" target="_blank">
+                    <img src="https://img.youtube.com/vi/k0ubS6BhHu4/hqdefault.jpg"
+                    class="border-2 border-purple-700 rounded-xl w-full aspect-video object-cover hover:scale-105 transition duration-300">
+                </a>
+            </div>
+            <!-- CTA -->
+            <div class="text-center mt-12">
+                <a href=https://www.youtube.com/@antinrmlmusic/videos target="_blank"
+                class="bg-purple-800 px-6 py-3 rounded-3xl text-xs sm:text-base font-semibold hover:bg-purple-900 transition duration-300">
+                Watch More on Youtube</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- CONTACT -->
+    <!-- <section id="contact">
+        <div class="text-white p-6 flex flex-col items-center space-y-4">
+            <h3 class="text-base leading-relaxed">Have a question or want to work together?</h3>
+            <p class="bg-purple-800 px-6 py-3 rounded-3xl font-semibold hover:bg-purple-900 transition duration-300">
+                Contact Us</p>
+        </div>
+    </section> -->
+
+    <!-- FOOTER -->
+    <footer id="contact" class="bg-stone-900 text-white p-4">
+        <div class="grid grid-cols-3 items-center justify-center items-end space-y-2">
+            <p class="text-xs sm:text-sm md:text-base">&copy; 2025 AntiNRML. W Jawir Mewing.</p>
+            <!-- ICON IG & YT -->
+            <div class="flex justify-center space-x-4">
+                <a href="https://instagram.com/anti_nrml" target="_blank" aria-label="Instagram">
+                    <svg class="text-white h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path fill="currentColor" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                    </svg>
+                </a>
+                <a href="https://youtube.com/@antinrmlmusic" target="_blank" aria-label="YouTube">
+                    <svg class="text-white h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                        <path fill="currentColor" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/>
+                    </svg>
+                </a>
+            </div>
+            <!-- CTA Contact -->
+            <div class="flex items-center justify-end">
+                <a href="contact.html"
+                class="bg-purple-800 px-3 py-2 md:px-4 md:py-2 rounded-3xl text-xs sm:text-sm md:text-base font-semibold hover:bg-purple-900 transition duration-300">
+                Contact Us</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
