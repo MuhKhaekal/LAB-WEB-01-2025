@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Campus Music Festival</title>
+</head>
+<body class="font-sans">
+    <header class="flex justify-between items-center bg-pink-500 text-white px-8 py-6 fixed w-full top-0 z-10">
+        <div class="font-bold text-2xl">CAMPUS MUSIC FESTIVAL</div>
+        <nav>
+            <ul class="flex space-x-5 font-medium">
+                <li><a href="#home" class="hover:text-yellow-300">Home</a></li>
+                <li><a href="#about" class="hover:text-yellow-300">About</a></li>
+                <li><a href="#lineup" class="hover:text-yellow-300">Line Up</a></li>
+                <li><a href="#tickets" class="hover:text-yellow-300">Ticket</a></li>
+                <li><a href="#contact" class="hover:text-yellow-300">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="home" class="relative h-screen">
+        <video autoplay muted loop class="w-full h-full object-cover">
+            <source src="images/unghasfest.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/50 flex flex-col text-center text-yellow-300 items-center justify-center">
+            <h2 class="text-4xl font-bold mb-4">Get Ready for Campus Music Festival!</h2>
+            <p class="text-lg mb-6 font-semibold">Campus Music Festival at Unhas 🎶</p>
+            <div class="space-x-4">
+                <a href="#tickets" class="bg-pink-500 hover:bg-white text-yellow-300 font-semibold py-2 px-4 rounded transition">Beli Tiket</a>
+                <a href="#lineup" class="bg-pink-500 hover:bg-white text-yellow-300 font-semibold py-2 px-4 rounded transition">Lihat Line Up</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="bg-yellow-300 py-16 px-13">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="font-bold text-pink-600 mb-6 mt-10 text-3xl">
+                About Campus Music Festival
+            </h2>
+
+            <p class="text-pink-500 text-lg leading-relaxed mb-10">
+                Campus Music Festival adalah festival musik yang mengunjungi seluruh kampus di seluruh Indonesia. Menghadirkan
+                artis-artis lokal maupun nasional dengan suasana meriah, penuh energi, dan warna.
+                Festival ini bukan hanya soal musik, tapi juga tentang kebersamaan, kreativitas, 
+                dan semangat generasi muda. 🎶🔥
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 my-6">
+            <h3 class="text-2xl font-semibold text-pink-500 mb-4">ATURAN & KETENTUAN</h3>
+            <ul class="list-disc pl-6 space-y-2 text-pink-500">
+                <li>Tiket hanya berlaku untuk satu orang dan tidak dapat dipindahtangankan.</li>
+                <li>Dilarang membawa makanan/minuman dari luar.</li>
+                <li>Tidak diperbolehkan membawa barang berbahaya atau ilegal.</li>
+                <li>Ikuti instruksi dari panitia demi kenyamanan bersama.</li>
+                <li>Hormati sesama penonton dan artis yang tampil.</li>
+            </ul>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 my-6">
+            <h3 class="text-2xl font-semibold text-pink-500 mb-4">TANGGAL & LOKASI</h3>
+            <div class="pl-2 space-y-2 text-pink-500">
+                <p>📅 Hari/Tanggal : Sabtu, 4 Oktober 2025</p>
+                <p>⌚ Waktu : 19.15 - 23.00 WITA</p>
+                <p>📍 Lokasi : JK Arenatorium (GOR Unhas), Makassar</p>
+            </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 my-6">
+            <h3 class="text-2xl font-semibold text-pink-500 mb-4">SEATING PLAN</h3>
+            <img src="images/seatingplan.png" alt="Seating Plan" class="w-3/4 mx-auto h-auto">
+            </div>
+        </div>
+    </section>
+
+    <section id="lineup" class="bg-yellow-300 py-16 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-pink-500 mb-10">Line Up & TrackList</h2>
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/realityclub.jpeg" alt="Reality Club" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">REALITY CLUB</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>Am I Bothering You?</li>
+                            <li>Anything You Want</li>
+                            <li>Alexandra</li>
+                        </ul>
+                    </div>
+                </div>
+            
+
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/h2h.jpeg" alt="h2h" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">HEARTS2HEARTS</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>Style</li>
+                            <li>The Chase</li>
+                            <li>(Cover) Girls Generation - Gee </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/tws.jpeg" alt="tws" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">TWS</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>Plot Twist</li>
+                            <li>If I'm S, Can You Be My N?</li>
+                            <li>Countdown!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/ariana.jpeg" alt="ariana" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">ARIANA GRANDE</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>One Last Time</li>
+                            <li>Into You</li>
+                            <li>we can't be friends</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/hindia.jpeg" alt="hindia" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">HINDIA</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>Evaluasi</li>
+                            <li>Kita Ke Sana</li>
+                            <li>Cincin</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/niki.jpeg" alt="niki" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">NIKI</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>Every Summertime</li>
+                            <li>You'll Be In My Heart</li>
+                            <li>High School In Jakarta</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/tulus.jpeg" alt="tulus" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">TULUS</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>Tujuh Belas</li>
+                            <li>Monokrom</li>
+                            <li>Hati-Hati di Jalan</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/aespa.jpeg" alt="aespa" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">AESPA</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>Drama</li>
+                            <li>Whiplash</li>
+                            <li>Supernova</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-2xl shadow-lg overflow-hidden">
+                    <img src="images/harry.jpeg" alt="harry" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-pink-500/50 flex flex-col justify-center items-center text-yellow-300 
+                                opacity-0 group-hover:opacity-100 transition duration-300">
+                        <h3 class="text-xl font-bold mb-3">HARRY STYLES</h3>
+                        <ul class="space-y-1 text-xl">
+                            <li>As It Was</li>
+                            <li>Falling</li>
+                            <li>Watermelon Sugar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tickets" class="py-16 bg-yellow-300">
+        <div class="text-pink-500 mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-10">Tickets</h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-pink-500 bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+                    <h3 class="text-2xl font-semibold mb-4">Silver</h3>
+                    <p class="mb-6">Tempat duduk reguler dengan akses standar</p>
+                    <p class="text-3xl font-bold mb-6">Rp 500.000</p>
+                    <button class="w-full bg-pink-500 text-white py-2 px-4 rounded-lg hover:bg-pink-600 transition">
+                    Beli
+                    </button>
+                </div>
+
+                <div class="text-pink-500 bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+                    <h3 class="text-2xl font-semibold mb-4">Gold</h3>
+                    <p class="mb-6">Posisi lebih dekat panggung + merchandise</p>
+                    <p class="text-3xl font-bold mb-6">Rp 1.000.000</p>
+                    <button class="w-full bg-pink-500 text-white py-2 px-4 rounded-lg hover:bg-pink-600 transition">
+                    Beli
+                    </button>
+                </div>
+
+                <div class="text-pink-500 shadow-lg bg-white rounded-2xl p-6 hover:shadow-xl transition">
+                    <h3 class="text-2xl font-semibold mb-4">VIP</h3>
+                    <p class="mb-6">Akses backstage + meet & greet</p>
+                    <p class="text-3xl font-bold mb-6">Rp 2.500.000</p>
+                    <button class="w-full bg-pink-500 text-white py-2 px-4 rounded-lg hover:bg-pink-600 transition">
+                    Beli
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 bg-white text-pink-500">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-10">Contact Us</h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-pink-500">Nama</label>
+                        <input type="text" id="name" name="name" required class="w-full border border-pink-500 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                    </div>
+                    <div>
+                        <label for="email" class="block mb-2 text-sm font-medium text-pink-500">Email</label>
+                        <input type="email" id="email" name="email" required class="w-full border border-pink-500 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                    </div>
+                    <div>
+                        <label for="message" class="block mb-2 text-sm font-medium text-pink-500">Pesan</label>
+                        <textarea id="message" name="message" rows="4" required class="w-full border border-pink-500 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-pink-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-pink-600 transition">Kirim Pesan</button>
+                </form>
+
+                <div class="flex flex-col justify-center space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-2">Alamat</h3>
+                        <p class="text-pink-500">Jl. Festival Musik No. 123, Makassar, Indonesia</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-2">Email</h3>
+                        <p class="text-pink-500">cmfestival@gmail.com</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-2">Telepon</h3>
+                        <p class="text-pink-500">+62 812-3456-7890</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-pink-500 text-white py-6">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <h2 class="text-lg font-bold">CAMPUS MUSIC FESTIVAL</h2>
+                <p class="text-sm">© 2025 Campus Music Festival. All rights reserved.</p>
+            </div>
+
+            <div class="flex space-x-4">
+                <a href="https://www.instagram.com/hasanuddin_univ/" class="hover:text-yellow-300 transition">Instagram</a>
+                <a href="https://x.com/HasanuddinUniv" class="hover:text-yellow-300 transition">Twitter</a>
+                <a href="https://www.youtube.com/@UniversitasHasanuddin" class="hover:text-yellow-300 transition">YouTube</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
