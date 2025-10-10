@@ -175,6 +175,27 @@ body {
     border-radius: 5px;
 }
 
+/* --- Gaya untuk Pop-up Pemilih Warna --- */
+#color-choices {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.color-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid white;
+    cursor: pointer;
+}
+
+.color-btn[data-color="red"] { background-color: #ff4136; }
+.color-btn[data-color="green"] { background-color: #2ecc40; }
+.color-btn[data-color="blue"] { background-color: #0074d9; }
+.color-btn[data-color="yellow"] { background-color: #ffdc00; }
+
 /* --- Kelas Bantuan --- */
 .hidden {
     display: none !important;
