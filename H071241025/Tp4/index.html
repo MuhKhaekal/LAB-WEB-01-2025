@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNO Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>UNO GAME</h1>
+        </div>
+
+        <div class="game-info">
+            <div class="balance">Saldo: $<span id="balance">5000</span></div>
+            <div class="turn-indicator">Giliran: <span id="current-turn">-</span></div>
+        </div>
+
+        <div class="bet-section" id="bet-section">
+            <h3>Masukkan Taruhan (Min: $100, Max: Saldo Anda)</h3>
+            <input type="number" id="bet-input" min="100" placeholder="Masukkan taruhan">
+            <button onclick="startGame()">Mulai Ronde</button>
+        </div>
+
+        <div class="message info" id="message">Masukkan taruhan untuk memulai permainan!</div>
+
+        <div class="bot-hand" id="bot-section" style="display: none;">
+            <h3>Kartu Bot (<span id="bot-card-count">7</span>)</h3>
+            <div class="bot-cards" id="bot-cards"></div>
+        </div>
+
+        <div class="play-area" id="play-area" style="display: none;">
+            <div class="deck">
+                <div class="deck-card" onclick="drawCard()" id="deck-card">
+                    <div style="font-size: 0.5em;" id="deck-count">108</div>
+                </div>
+            </div>
+            <div class="discard-pile">
+                <div class="top-card" id="top-card"></div>
+            </div>
+        </div>
+
+        <div class="uno-section" id="uno-section" style="display: none;">
+            <button class="uno-button" id="uno-button" onclick="callUno()" disabled>
+                TEKAN UNO!
+            </button>
+            <button class="call-uno-button" id="call-uno-opponent" onclick="callUnoOnOpponent()" disabled>
+                Panggil UNO Lawan!
+            </button>
+            <span class="timer" id="uno-timer"></span>
+        </div>
+
+        <div class="player-hand" id="player-section" style="display: none;">
+            <h3>Kartu Anda (<span id="player-card-count">7</span>)</h3>
+            <div class="player-cards" id="player-cards"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="color-modal">
+        <div class="modal-content">
+            <h2>Pilih Warna</h2>
+            <div class="color-buttons">
+                <button class="color-btn red" onclick="selectColor('red')">🔴 Merah</button>
+                <button class="color-btn blue" onclick="selectColor('blue')">🔵 Biru</button>
+                <button class="color-btn green" onclick="selectColor('green')">🟢 Hijau</button>
+                <button class="color-btn yellow" onclick="selectColor('yellow')">🟡 Kuning</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="game-over-modal">
+        <div class="modal-content">
+            <h2 id="game-over-title">Game Over</h2>
+            <p id="game-over-message" style="font-size: 1.3em; margin: 20px 0;"></p>
+            <button class="color-btn blue" onclick="resetGame()" style="padding: 15px 40px; font-size: 1.2em;">
+                Main Lagi
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
