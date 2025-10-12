@@ -1,50 +1,61 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // =================================================================
-    // BAGIAN 1: KONSTANTA & VARIABEL STATE
+    // BAGIAN 1: Referensi Elemen UI & State Permainan
     // =================================================================
 
-    const COLORS = ['red', 'yellow', 'green', 'blue'];
-    const VALUES = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'skip', 'reverse', 'draw2'];
+    const ui = {
+        playerHand: document.getElementById('player-hand'),
+        botHand: document.getElementById('bot-hand'),
+        discardPile: document.getElementById('discard-pile'),
+        deck: document.getElementById('deck'),
+        gameMessage: document.getElementById('game-message'),
+        playerBalance: document.getElementById('player-balance'),
+        startRoundBtn: document.getElementById('start-round-btn'),
+        betInput: document.getElementById('bet-input'),
+        currentBalanceSpan: document.getElementById('current-balance'),
+        unoButton: document.getElementById('uno-button'),
+        colorPickerOverlay: document.getElementById('color-picker-overlay'),
+        colorChoices: document.getElementById('color-choices'),
+        gameOverOverlay: document.getElementById('game-over-overlay'),
+        restartGameBtn: document.getElementById('restart-game-btn'),
+        bettingOverlay: document.getElementById('betting-overlay'),
+    };
 
-    const botHandElement = document.getElementById('bot-hand');
-    const playerHandElement = document.getElementById('player-hand');
-    const discardPileElement = document.getElementById('discard-pile');
-    const deckElement = document.getElementById('deck');
-    const deckCounterElement = document.getElementById('deck-counter');
-    const gameMessageElement = document.getElementById('game-message');
-    const playerBalanceElement = document.getElementById('player-balance');
-    const startRoundBtn = document.getElementById('start-round-btn');
-    const betInputElement = document.getElementById('bet-input');
-    const currentBalanceElement = document.getElementById('current-balance');
-    const bettingOverlay = document.getElementById('betting-overlay');
-    const unoButton = document.getElementById('uno-button');
-    const gameOverOverlay = document.getElementById('game-over-overlay');
-    const restartGameBtn = document.getElementById('restart-game-btn');
-    const colorPickerOverlay = document.getElementById('color-picker-overlay');
-    const colorChoices = document.getElementById('color-choices');
+    let gameState = {
+        deck: [],
+        playerHand: [],
+        botHand: [],
+        discardPile: [],
+        currentPlayer: 'player',
+        currentColor: '',
+        playerBalance: 5000,
+        currentBet: 0,
+        gameActive: false,
+        playerDeclaredUno: false,
+    };
 
-    let deck = [], playerHand = [], botHand = [], discardPile = [];
-    let currentPlayer = 'player', playerBalance = 5000, currentBet = 0;
-    let playerDeclaredUno = false;
-    
     // =================================================================
-    // BAGIAN 2: FUNGSI SETUP PERMAINAN
+    // BAGIAN 2: Setup Awal & Pembuatan Kartu
     // =================================================================
 
     function createDeck() {
-        const newDeck = [];
-        COLORS.forEach(color => {
-            VALUES.forEach(value => {
-                newDeck.push({ color, value, originalColor: color });
-                if (value !== '0') newDeck.push({ color, value, originalColor: color });
+        const colors = ['red', 'green', 'blue', 'yellow'];
+        const actionValues = ['Skip', 'Reverse', 'DrawTwo'];
+        let deck = [];
+        colors.forEach(color => {
+            deck.push({ color, value: '0' });
+            for (let i = 1; i <= 9; i++) {
+                deck.push({ color, value: String(i) }, { color, value: String(i) });
+            }
+            actionValues.forEach(value => {
+                deck.push({ color, value }, { color, value });
             });
         });
         for (let i = 0; i < 4; i++) {
-            newDeck.push({ color: 'wild', value: 'wild', originalColor: 'wild' });
-            newDeck.push({ color: 'wild', value: 'wild_draw4', originalColor: 'wild' });
+            deck.push({ color: 'Wild', value: 'Wild' }, { color: 'Wild', value: 'WildDrawFour' });
         }
-        return newDeck;
+        return deck;
     }
 
     function shuffleDeck(deck) {
@@ -54,269 +65,375 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function startRound() {
-        currentBet = parseInt(betInputElement.value);
-        if (isNaN(currentBet) || currentBet < 100 || currentBet > playerBalance) {
-            return alert("Nilai taruhan tidak valid!");
-        }
-        playerBalance -= currentBet;
-        bettingOverlay.classList.remove('active');
-        gameMessageElement.textContent = "Ronde dimulai! Giliran Anda.";
-        playerDeclaredUno = false;
-        unoButton.classList.remove('hidden'); // Pastikan tombol UNO muncul lagi
-        deck = createDeck();
-        shuffleDeck(deck);
-        playerHand = [], botHand = [], discardPile = [];
+    function dealInitialCards() {
         for (let i = 0; i < 7; i++) {
-            playerHand.push(deck.pop());
-            botHand.push(deck.pop());
+            gameState.playerHand.push(gameState.deck.pop());
+            gameState.botHand.push(gameState.deck.pop());
         }
-        let firstCard = deck.pop();
-        while (firstCard.value === 'wild_draw4') {
-            deck.push(firstCard);
-            shuffleDeck(deck);
-            firstCard = deck.pop();
-        }
-        discardPile.push(firstCard);
-        currentPlayer = 'player';
-        renderAll();
-        handleCardEffects(firstCard, true);
-    }
-    
-    // =================================================================
-    // BAGIAN 3: LOGIKA INTI & AKSI PEMAIN
-    // =================================================================
-
-    function isCardPlayable(card) {
-        const topCard = discardPile[discardPile.length - 1];
-        if (!topCard) return true;
-        return card.color === 'wild' || card.color === topCard.color || card.value === topCard.value;
-    }
-
-    function playCard(card, player) {
-        const hand = (player === 'player') ? playerHand : botHand;
-        // Cari kartu berdasarkan data-*, bukan hanya properti objek mentah
-        const cardInHand = hand.find(c => c.value === card.value && c.originalColor === (card.originalColor || card.color));
-        const cardIndex = hand.indexOf(cardInHand);
-
-        if (cardIndex > -1) {
-            const [playedCard] = hand.splice(cardIndex, 1);
-            discardPile.push(playedCard);
-            
-            if (playedCard.value.startsWith('wild')) {
-                handleWildCard(playedCard, player);
-            } else {
-                handleCardEffects(playedCard);
-                if (hand.length === 0) return checkWinCondition();
-                switchTurn();
-            }
-        }
-    }
-    
-    function handleWildCard(playedCard, player) {
-        if (player === 'player') {
-            colorPickerOverlay.classList.add('active');
-        } else {
-            const chosenColor = botChooseColor();
-            gameMessageElement.textContent = `Bot memilih warna ${chosenColor}.`;
-            playedCard.color = chosenColor;
-            handleCardEffects(playedCard);
-            if (botHand.length === 0) return checkWinCondition();
-            switchTurn();
-        }
-    }
-
-    function handleColorChoice(event) {
-        const chosenColor = event.target.dataset.color;
-        if (chosenColor) {
-            const wildCard = discardPile[discardPile.length - 1];
-            wildCard.color = chosenColor;
-            colorPickerOverlay.classList.remove('active');
-            handleCardEffects(wildCard);
-            if (playerHand.length === 0) return checkWinCondition();
-            switchTurn();
-        }
-    }
-
-    function handleUnoButtonClick() {
-        if (currentPlayer !== 'player') return;
-
-        if (playerHand.length === 1) {
-            playerDeclaredUno = true;
-            gameMessageElement.textContent = "Anda menyatakan UNO!";
-            unoButton.classList.add('hidden'); // Sembunyikan setelah berhasil
-        } else {
-            gameMessageElement.textContent = "Salah pencet UNO! Anda mendapat 2 kartu penalti.";
-            if (deck.length >= 2) {
-                playerHand.push(deck.pop(), deck.pop());
-            }
-            renderAll();
-        }
-    }
-    
-    // =================================================================
-    // BAGIAN 4: LOGIKA BOT & ALUR PERMAINAN
-    // =================================================================
-
-    function botTurn() {
-        setTimeout(() => {
-            const cardToPlay = botHand.find(card => isCardPlayable(card));
-            if (cardToPlay) {
-                gameMessageElement.textContent = `Bot memainkan kartu.`;
-                playCard(cardToPlay, 'bot');
-            } else {
-                if (deck.length > 0) botHand.push(deck.pop());
-                gameMessageElement.textContent = "Bot mengambil 1 kartu.";
-                switchTurn();
-            }
-        }, 1500);
-    }
-    
-    function botChooseColor() {
-        const colorCount = { red: 0, green: 0, blue: 0, yellow: 0 };
-        botHand.forEach(card => {
-            if (card.originalColor !== 'wild') colorCount[card.originalColor]++;
-        });
-        let bestColor = 'red';
-        let maxCount = 0;
-        for (const color in colorCount) {
-            if (colorCount[color] > maxCount) {
-                maxCount = colorCount[color];
-                bestColor = color;
-            }
-        }
-        return bestColor;
-    }
-
-    function switchTurn() {
-        if (currentPlayer === 'player' && playerHand.length === 1 && !playerDeclaredUno) {
-            gameMessageElement.textContent = "Anda lupa bilang UNO! Ambil 2 kartu penalti.";
-            playerHand.push(deck.pop(), deck.pop());
-        }
-        playerDeclaredUno = false; // Reset status UNO untuk giliran berikutnya
-        renderAll();
-        if (checkWinCondition()) return;
-        currentPlayer = (currentPlayer === 'player') ? 'bot' : 'player';
-        gameMessageElement.textContent = (currentPlayer === 'player') ? "Giliran Anda!" : "Giliran Bot...";
-        if (currentPlayer === 'bot') botTurn();
-    }
-    
-    function handleCardEffects(card, isFirstCard = false) {
-        const nextPlayer = isFirstCard ? currentPlayer : (currentPlayer === 'player' ? 'bot' : 'player');
-        const targetHand = nextPlayer === 'player' ? playerHand : botHand;
-        
-        const drawCards = (count) => {
-            for(let i = 0; i < count; i++) {
-                if (deck.length > 0) targetHand.push(deck.pop());
-            }
-        };
-
-        switch(card.value) {
-            case 'draw2': drawCards(2); break;
-            case 'wild_draw4': drawCards(4); break;
-            case 'skip':
-            case 'reverse': if (!isFirstCard) setTimeout(switchTurn, 50); break;
-        }
-
-        if (isFirstCard && ['draw2', 'skip', 'reverse'].includes(card.value)) {
-            currentPlayer = 'bot';
-        }
-    }
-
-    function checkWinCondition() {
-        if (playerHand.length === 0) { endRound(true); return true; }
-        if (botHand.length === 0) { endRound(false); return true; }
-        return false;
-    }
-    
-    function endRound(playerWon) {
-        if (playerWon) {
-            playerBalance += (currentBet * 2);
-            gameMessageElement.textContent = `Selamat! Anda memenangkan $${currentBet}!`;
-        } else {
-            gameMessageElement.textContent = `Sayang sekali! Anda kehilangan $${currentBet}.`;
-        }
-        if (playerBalance <= 0) {
-            gameOverOverlay.classList.add('active');
-        } else {
-            setTimeout(() => {
-                bettingOverlay.classList.add('active');
-                updateBalanceUI();
-            }, 3000);
-        }
-    }
-    
-    function restartGame() {
-        playerBalance = 5000;
-        gameOverOverlay.classList.remove('active');
-        initializeGame();
     }
 
     // =================================================================
-    // BAGIAN 5: FUNGSI RENDER & AKSI UI
+    // BAGIAN 3: Render (Menampilkan ke Layar)
     // =================================================================
 
-    function createCardElement(card) {
-        const el = document.createElement('div');
-        el.classList.add('card');
+    function getCardImagePath(card) {
         let imageName = '';
-        const colorForImage = card.originalColor; // Selalu gunakan warna asli untuk nama file
-        if (card.value === 'draw2') imageName = `${colorForImage}_plus2.png`;
-        else if (card.value === 'wild') imageName = 'wild.png';
-        else if (card.value === 'wild_draw4') imageName = 'plus_4.png';
-        else imageName = `${colorForImage}_${card.value}.png`;
-        el.style.backgroundImage = `url('assets/cards/${imageName}')`;
-        el.dataset.color = card.color;
-        el.dataset.value = card.value;
-        el.dataset.originalColor = card.originalColor; // Simpan info warna asli
-        return el;
+        const color = card.color.toLowerCase();
+        if (card.value === 'WildDrawFour') imageName = 'plus_4.png';
+        else if (card.value === 'Wild') imageName = 'wild.png';
+        else if (card.value === 'DrawTwo') imageName = `${color}_plus2.png`;
+        else {
+            const value = card.value.toLowerCase();
+            imageName = `${color}_${value}.png`;
+        }
+        return `url('assets/cards/${imageName}')`;
     }
 
-    function renderHand(hand, element, isPlayer) {
-        element.innerHTML = '';
-        hand.forEach(card => {
-            const cardEl = isPlayer ? createCardElement(card) : document.createElement('div');
-            if (!isPlayer) cardEl.classList.add('card', 'facedown');
-            element.appendChild(cardEl);
+    function createCardElement(card, index) {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'card';
+        cardElement.style.backgroundImage = getCardImagePath(card);
+        if (index !== undefined) {
+            cardElement.dataset.cardIndex = index;
+        }
+        return cardElement;
+    }
+
+    function renderPlayerHand() {
+        ui.playerHand.innerHTML = '';
+        gameState.playerHand.forEach((card, index) => {
+            ui.playerHand.appendChild(createCardElement(card, index));
+        });
+    }
+
+    function renderBotHand() {
+        ui.botHand.innerHTML = '';
+        gameState.botHand.forEach(() => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card facedown';
+            cardElement.style.backgroundImage = `url('assets/card_back.png')`;
+            ui.botHand.appendChild(cardElement);
         });
     }
 
     function renderDiscardPile() {
-        discardPileElement.innerHTML = '';
-        const topCard = discardPile[discardPile.length - 1];
-        if (topCard) discardPileElement.appendChild(createCardElement(topCard));
+        ui.discardPile.innerHTML = '';
+        if (gameState.discardPile.length === 0) return;
+        const topCard = gameState.discardPile[gameState.discardPile.length - 1];
+        const cardElement = createCardElement(topCard);
+        if (topCard.color === 'Wild') {
+            cardElement.style.borderColor = gameState.currentColor;
+            cardElement.style.borderWidth = '4px';
+            cardElement.style.borderStyle = 'solid';
+        }
+        ui.discardPile.appendChild(cardElement);
     }
     
-    function renderAll() {
-        renderHand(playerHand, playerHandElement, true);
-        renderHand(botHand, botHandElement, false);
+    function highlightPlayableCards() {
+        const topCard = gameState.discardPile[gameState.discardPile.length - 1];
+        ui.playerHand.querySelectorAll('.card').forEach(cardElement => {
+            const cardIndex = cardElement.dataset.cardIndex;
+            const card = gameState.playerHand[cardIndex];
+            cardElement.classList.toggle('playable', isValidMove(card, topCard));
+        });
+    }
+
+    function updateBalanceDisplay() {
+        const balanceText = `$${gameState.playerBalance}`;
+        ui.playerBalance.textContent = balanceText;
+        ui.currentBalanceSpan.textContent = gameState.playerBalance;
+    }
+
+    function renderGame() {
+        renderPlayerHand();
+        renderBotHand();
         renderDiscardPile();
-        deckCounterElement.textContent = `DECK (${deck.length})`;
-        playerBalanceElement.textContent = `$${playerBalance}`;
+        highlightPlayableCards();
     }
 
-    function initializeGame() {
-        currentBalanceElement.textContent = playerBalance;
-        betInputElement.max = playerBalance;
-        betInputElement.value = 100;
-        bettingOverlay.classList.add('active');
+    // =================================================================
+    // BAGIAN 4: Logika Inti Permainan
+    // =================================================================
+    
+    function isValidMove(card, topCard) {
+        if (!topCard) return true;
+        return card.color === 'Wild' || card.color === gameState.currentColor || card.value === topCard.value;
     }
 
-    // Event Listeners
-    startRoundBtn.addEventListener('click', startRound);
-    playerHandElement.addEventListener('click', (e) => {
-        if (e.target.classList.contains('card')) {
-             playCard({
-                value: e.target.dataset.value,
-                color: e.target.dataset.color,
-                originalColor: e.target.dataset.originalColor
-            }, 'player');
+    function drawCards(player, amount) {
+        const hand = (player === 'player') ? gameState.playerHand : gameState.botHand;
+        for (let i = 0; i < amount; i++) {
+            if (gameState.deck.length > 0) {
+                hand.push(gameState.deck.pop());
+            }
         }
-    });
-    deckElement.addEventListener('click', () => { if (currentPlayer === 'player') switchTurn(); });
-    unoButton.addEventListener('click', handleUnoButtonClick);
-    restartGameBtn.addEventListener('click', restartGame);
-    colorChoices.addEventListener('click', handleColorChoice);
+    }
 
-    initializeGame();
+    function applyCardEffect(card, playedBy) {
+        const target = (playedBy === 'player') ? 'bot' : 'player';
+        let amountToDraw = 0;
+        if (card.value === 'DrawTwo') amountToDraw = 2;
+        if (card.value === 'WildDrawFour') amountToDraw = 4;
+
+        if (amountToDraw > 0) {
+            ui.gameMessage.textContent = `${target === 'player' ? 'Anda' : 'Bot'} mengambil ${amountToDraw} kartu!`;
+            drawCards(target, amountToDraw);
+        }
+    }
+    
+    /**
+     * -- FUNGSI YANG DIPERBAIKI --
+     * Logika ini sekarang sudah anti-bug.
+     */
+    function switchTurn() {
+        if (!gameState.gameActive) return;
+
+        // Jika giliran pemain yang akan berakhir...
+        if (gameState.currentPlayer === 'player') {
+            // LANGSUNG UBAH STATUS, kunci pemain agar tidak bisa klik lagi.
+            gameState.currentPlayer = 'bot';
+            ui.gameMessage.textContent = 'Giliran Bot...';
+            
+            // Beri jeda 2 detik untuk kesempatan menekan UNO & bot berpikir
+            setTimeout(() => {
+                // Pengecekan penalti dilakukan di sini, setelah jeda
+                if (gameState.playerHand.length === 1 && !gameState.playerDeclaredUno) {
+                    ui.gameMessage.textContent = 'Lupa menekan UNO! Anda mengambil 2 kartu penalti.';
+                    drawCards('player', 2);
+                    renderGame(); // Perbarui tampilan setelah kena penalti
+                }
+                
+                gameState.playerDeclaredUno = false; // Reset status untuk giliran berikutnya
+                botTurn();
+
+            }, 2000);
+        } else {
+            // Jika giliran bot yang berakhir, langsung pindah ke pemain
+            gameState.currentPlayer = 'player';
+            ui.gameMessage.textContent = 'Giliran Anda!';
+            highlightPlayableCards();
+        }
+    }
+
+    function playCard(player, cardIndex) {
+        const hand = (player === 'player') ? gameState.playerHand : gameState.botHand;
+        const card = hand.splice(cardIndex, 1)[0];
+        gameState.discardPile.push(card);
+        
+        gameState.playerDeclaredUno = false;
+        
+        if (card.color !== 'Wild') {
+            gameState.currentColor = card.color;
+        }
+
+        applyCardEffect(card, player);
+        renderGame();
+
+        if (hand.length === 0) {
+            endRound(player);
+            return;
+        }
+        
+        if (card.color === 'Wild') {
+            showColorPicker(player);
+        } else if (['Skip', 'Reverse', 'DrawTwo'].includes(card.value)) {
+            ui.gameMessage.textContent = 'Kartu Aksi! Giliran Anda lagi!';
+            if (player === 'bot') {
+                setTimeout(botTurn, 1500);
+            }
+        } else {
+            switchTurn();
+        }
+    }
+    
+    function drawCardFromDeck() {
+        if (!gameState.gameActive || gameState.currentPlayer !== 'player' || gameState.deck.length === 0) return;
+        drawCards('player', 1);
+        ui.gameMessage.textContent = `Anda mengambil kartu. Giliran dilewati.`;
+        renderGame();
+        // Langsung panggil switchTurn agar alur jeda dan giliran tetap konsisten
+        switchTurn();
+    }
+    
+    function showColorPicker(player) {
+        if (player === 'player') {
+            ui.colorPickerOverlay.classList.add('active');
+        } else {
+            const colorsInHand = gameState.botHand.map(card => card.color).filter(color => color !== 'Wild');
+            if (colorsInHand.length === 0) {
+                handleColorChoice('red'); return;
+            }
+            const colorCounts = colorsInHand.reduce((acc, color) => {
+                acc[color] = (acc[color] || 0) + 1; return acc;
+            }, {});
+            const chosenColor = Object.keys(colorCounts).reduce((a, b) => colorCounts[a] > colorCounts[b] ? a : b);
+            handleColorChoice(chosenColor);
+        }
+    }
+    
+    function handleColorChoice(color) {
+        gameState.currentColor = color;
+        ui.gameMessage.textContent = `Warna diubah menjadi ${color}.`;
+        ui.colorPickerOverlay.classList.remove('active');
+        renderDiscardPile();
+        switchTurn();
+    }
+    
+    // =================================================================
+    // BAGIAN 5: Logika Bot & Alur Permainan
+    // =================================================================
+
+    function botTurn() {
+        if (!gameState.gameActive || gameState.currentPlayer !== 'bot') return;
+        ui.gameMessage.textContent = 'Bot sedang berpikir...';
+        
+        // Logika berpikir bot dipisah agar pesan bisa muncul dulu
+        setTimeout(() => {
+            const topCard = gameState.discardPile[gameState.discardPile.length - 1];
+            let playableCardIndex = gameState.botHand.findIndex(card => card.color !== 'Wild' && isValidMove(card, topCard));
+            if (playableCardIndex === -1) {
+                playableCardIndex = gameState.botHand.findIndex(card => card.color === 'Wild' && isValidMove(card, topCard));
+            }
+            if (playableCardIndex !== -1 && gameState.botHand[playableCardIndex].value === 'WildDrawFour') {
+                if (gameState.botHand.some(c => c.color === gameState.currentColor)) {
+                    playableCardIndex = -1;
+                }
+            }
+
+            if (playableCardIndex !== -1) {
+                playCard('bot', playableCardIndex);
+            } else {
+                if (gameState.deck.length > 0) {
+                    drawCards('bot', 1);
+                    ui.gameMessage.textContent = 'Bot mengambil satu kartu.';
+                    renderBotHand();
+                    // Setelah ambil, giliran pindah ke pemain
+                    setTimeout(switchTurn, 1000);
+                } else {
+                    switchTurn(); // Jika dek kosong
+                }
+            }
+        }, 1500); // Waktu bot "berpikir"
+    }
+    
+    function handlePlayerCardClick(e) {
+        // Guard clause ini sekarang akan bekerja dengan benar
+        if (!gameState.gameActive || gameState.currentPlayer !== 'player') return;
+        
+        const cardElement = e.target.closest('.card');
+        if (!cardElement) return;
+
+        const cardIndex = cardElement.dataset.cardIndex;
+        const card = gameState.playerHand[cardIndex];
+        const topCard = gameState.discardPile[gameState.discardPile.length - 1];
+
+        if (!isValidMove(card, topCard)) {
+            ui.gameMessage.textContent = 'Kartu tidak cocok!';
+            return;
+        }
+        
+        if (card.value === 'WildDrawFour' && gameState.playerHand.some(c => c.color === gameState.currentColor)) {
+            alert('Anda tidak bisa memainkan Wild +4 karena masih punya kartu dengan warna yang cocok!');
+            return;
+        }
+        playCard('player', cardIndex);
+    }
+
+    function endRound(winner) {
+        gameState.gameActive = false;
+        
+        if (winner === 'player') {
+            ui.gameMessage.textContent = `Selamat! Anda memenangkan ronde dan mendapat $${gameState.currentBet}!`;
+            gameState.playerBalance += (gameState.currentBet * 2);
+        } else {
+            ui.gameMessage.textContent = `Sayang sekali! Bot memenangkan ronde ini.`;
+        }
+        updateBalanceDisplay();
+        
+        if (gameState.playerBalance <= 0) {
+            setTimeout(() => ui.gameOverOverlay.classList.add('active'), 2000);
+        } else {
+            setTimeout(() => ui.bettingOverlay.classList.add('active'), 3000);
+        }
+    }
+    
+    function startGame(bet) {
+        gameState.playerBalance -= bet;
+        updateBalanceDisplay();
+        
+        Object.assign(gameState, {
+            gameActive: true,
+            currentBet: bet,
+            playerHand: [],
+            botHand: [],
+            discardPile: [],
+            deck: createDeck(),
+            playerDeclaredUno: false
+        });
+        
+        shuffleDeck(gameState.deck);
+        dealInitialCards();
+
+        let firstCard = gameState.deck.pop();
+        while (firstCard.value === 'WildDrawFour') {
+            gameState.deck.push(firstCard);
+            shuffleDeck(gameState.deck);
+            firstCard = gameState.deck.pop();
+        }
+        gameState.discardPile.push(firstCard);
+        gameState.currentColor = firstCard.color;
+        gameState.currentPlayer = 'player';
+        
+        ui.gameMessage.textContent = 'Giliran Anda untuk bermain!';
+        renderGame();
+        
+        if (gameState.discardPile[0].color === 'Wild') {
+            setTimeout(() => showColorPicker('player'), 500);
+        }
+    }
+
+    // =================================================================
+    // BAGIAN 6: Event Listeners
+    // =================================================================
+
+    function setupEventListeners() {
+        ui.startRoundBtn.addEventListener('click', () => {
+            const betAmount = parseInt(ui.betInput.value);
+            if (isNaN(betAmount) || betAmount < 100) return alert("Taruhan minimal adalah $100.");
+            if (betAmount > gameState.playerBalance) return alert("Saldo Anda tidak mencukupi untuk taruhan ini.");
+            ui.bettingOverlay.classList.remove('active');
+            startGame(betAmount);
+        });
+        
+        ui.playerHand.addEventListener('click', handlePlayerCardClick);
+        ui.deck.addEventListener('click', drawCardFromDeck);
+
+        ui.unoButton.addEventListener('click', () => {
+            if (gameState.playerHand.length !== 1) {
+                ui.gameMessage.textContent = 'Salah pencet UNO! Anda mendapat 2 kartu penalti.';
+                drawCards('player', 2);
+                renderGame();
+            } else {
+                ui.gameMessage.textContent = 'Anda berhasil memanggil UNO!';
+                gameState.playerDeclaredUno = true;
+            }
+        });
+
+        ui.colorChoices.addEventListener('click', (e) => {
+            if (e.target.classList.contains('color-btn')) {
+                handleColorChoice(e.target.dataset.color);
+            }
+        });
+
+        ui.restartGameBtn.addEventListener('click', () => {
+            gameState.playerBalance = 5000;
+            updateBalanceDisplay();
+            ui.gameOverOverlay.classList.remove('hidden');
+            ui.bettingOverlay.classList.add('active');
+            ui.gameMessage.textContent = 'Masukkan taruhan untuk memulai ronde baru.';
+        });
+    }
+
+    updateBalanceDisplay();
+    setupEventListeners();
 });
