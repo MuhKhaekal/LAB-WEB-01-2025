@@ -200,3 +200,47 @@ body {
 .hidden {
     display: none !important;
 }
+
+/* --- Aturan Responsif untuk Layar Mobile --- */
+@media (max-width: 768px) {
+    #game-container {
+        padding: 10px;
+    }
+
+    .hand {
+        /* Memungkinkan kartu tumpang tindih agar muat di layar kecil */
+        gap: -30px; 
+    }
+
+    .card {
+        width: 60px;
+        height: 90px;
+    }
+
+    .card-pile {
+        width: 60px;
+        height: 90px;
+    }
+
+    #table-area {
+        gap: 15px;
+        flex-wrap: wrap; /* Memungkinkan item pindah ke baris baru jika tidak muat */
+    }
+    
+    #game-info {
+        /* Pastikan info game berada di tengah meskipun item lain pindah baris */
+        width: 100%; 
+        order: 3; /* Pindahkan ke bagian bawah area meja */
+        margin-top: 10px;
+    }
+
+    #uno-button {
+        padding: 8px 15px;
+        font-size: 1em;
+    }
+
+    .overlay-content {
+        padding: 20px;
+        width: 80%;
+    }
+}

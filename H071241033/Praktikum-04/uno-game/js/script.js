@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // BAGIAN 1: Referensi Elemen UI & State Permainan
     // =================================================================
 
+    /**
+     * Objek 'ui' untuk menyimpan semua referensi ke elemen HTML (DOM).
+     * Ini membuat akses ke elemen UI menjadi lebih terpusat dan rapi.
+     */
     const ui = {
         playerHand: document.getElementById('player-hand'),
         botHand: document.getElementById('bot-hand'),
@@ -22,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
         bettingOverlay: document.getElementById('betting-overlay'),
     };
 
+    /**
+     * Objek 'gameState' untuk menyimpan semua data dan kondisi permainan.
+     * Mengelola semua variabel dinamis seperti kartu di tangan, giliran, saldo, dll.
+     */
     let gameState = {
         deck: [],
         playerHand: [],
@@ -39,10 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // BAGIAN 2: Setup Awal & Pembuatan Kartu
     // =================================================================
 
+    /**
+     * Membuat satu set dek kartu UNO standar (108 kartu).
+     * @returns {Array} Array berisi objek-objek kartu.
+     */
     function createDeck() {
         const colors = ['red', 'green', 'blue', 'yellow'];
         const actionValues = ['Skip', 'Reverse', 'DrawTwo'];
         let deck = [];
+
         colors.forEach(color => {
             deck.push({ color, value: '0' });
             for (let i = 1; i <= 9; i++) {
@@ -52,12 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 deck.push({ color, value }, { color, value });
             });
         });
+
         for (let i = 0; i < 4; i++) {
             deck.push({ color: 'Wild', value: 'Wild' }, { color: 'Wild', value: 'WildDrawFour' });
         }
         return deck;
     }
 
+    /**
+     * Mengocok urutan kartu dalam dek menggunakan algoritma Fisher-Yates.
+     * @param {Array} deck - Array kartu yang akan dikocok.
+     */
     function shuffleDeck(deck) {
         for (let i = deck.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -65,6 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Membagikan 7 kartu awal kepada pemain dan bot dari dek.
+     */
     function dealInitialCards() {
         for (let i = 0; i < 7; i++) {
             gameState.playerHand.push(gameState.deck.pop());
@@ -76,6 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // BAGIAN 3: Render (Menampilkan ke Layar)
     // =================================================================
 
+    /**
+     * Menentukan path (jalur) file gambar berdasarkan properti kartu.
+     * Disesuaikan untuk nama file aset Anda (e.g., plus_4.png, red_plus2.png).
+     * @param {Object} card - Objek kartu (e.g., {color: 'red', value: '5'}).
+     * @returns {string} String CSS untuk 'background-image'.
+     */
     function getCardImagePath(card) {
         let imageName = '';
         const color = card.color.toLowerCase();
@@ -89,6 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return `url('assets/cards/${imageName}')`;
     }
 
+    /**
+     * Membuat sebuah elemen div HTML untuk merepresentasikan satu kartu.
+     * @param {Object} card - Objek kartu.
+     * @param {number} [index] - Indeks kartu di tangan pemain (untuk identifikasi klik).
+     * @returns {HTMLElement} Elemen div kartu yang siap ditampilkan.
+     */
     function createCardElement(card, index) {
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
@@ -99,6 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return cardElement;
     }
 
+    /**
+     * Menampilkan semua kartu di tangan pemain ke layar.
+     */
     function renderPlayerHand() {
         ui.playerHand.innerHTML = '';
         gameState.playerHand.forEach((card, index) => {
@@ -106,6 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * Menampilkan kartu bot (tertutup) ke layar.
+     */
     function renderBotHand() {
         ui.botHand.innerHTML = '';
         gameState.botHand.forEach(() => {
@@ -116,6 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * Menampilkan kartu teratas dari tumpukan buang (discard pile).
+     * Memberikan border berwarna jika kartu tersebut adalah Wild.
+     */
     function renderDiscardPile() {
         ui.discardPile.innerHTML = '';
         if (gameState.discardPile.length === 0) return;
@@ -129,6 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ui.discardPile.appendChild(cardElement);
     }
     
+    /**
+     * Memberi highlight (sorotan) visual pada kartu di tangan pemain yang bisa dimainkan.
+     */
     function highlightPlayableCards() {
         const topCard = gameState.discardPile[gameState.discardPile.length - 1];
         ui.playerHand.querySelectorAll('.card').forEach(cardElement => {
@@ -138,12 +184,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * Memperbarui tampilan saldo pemain di beberapa tempat di UI.
+     */
     function updateBalanceDisplay() {
         const balanceText = `$${gameState.playerBalance}`;
         ui.playerBalance.textContent = balanceText;
         ui.currentBalanceSpan.textContent = gameState.playerBalance;
     }
 
+    /**
+     * Fungsi utama untuk memanggil semua fungsi render sekaligus.
+     * Mengupdate seluruh tampilan visual permainan.
+     */
     function renderGame() {
         renderPlayerHand();
         renderBotHand();
@@ -155,11 +208,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // BAGIAN 4: Logika Inti Permainan
     // =================================================================
     
+    /**
+     * Memeriksa apakah sebuah kartu valid untuk dimainkan.
+     * Aturan: Kartu Wild, warna cocok, atau nilai/simbol cocok.
+     * @param {Object} card - Kartu yang ingin dimainkan.
+     * @param {Object} topCard - Kartu teratas di discard pile.
+     * @returns {boolean} True jika kartu bisa dimainkan, false jika tidak.
+     */
     function isValidMove(card, topCard) {
         if (!topCard) return true;
         return card.color === 'Wild' || card.color === gameState.currentColor || card.value === topCard.value;
     }
 
+    /**
+     * Menambahkan sejumlah kartu dari dek ke tangan pemain/bot.
+     * @param {string} player - 'player' atau 'bot'.
+     * @param {number} amount - Jumlah kartu yang akan diambil.
+     */
     function drawCards(player, amount) {
         const hand = (player === 'player') ? gameState.playerHand : gameState.botHand;
         for (let i = 0; i < amount; i++) {
@@ -169,6 +234,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Menerapkan efek dari kartu aksi (+2 atau +4).
+     * @param {Object} card - Kartu yang dimainkan.
+     * @param {string} playedBy - Siapa yang memainkan kartu ('player' atau 'bot').
+     */
     function applyCardEffect(card, playedBy) {
         const target = (playedBy === 'player') ? 'bot' : 'player';
         let amountToDraw = 0;
@@ -182,45 +252,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * -- FUNGSI YANG DIPERBAIKI --
-     * Logika ini sekarang sudah anti-bug.
+     * Mengatur perpindahan giliran antara pemain dan bot.
+     * Fungsi ini juga menangani penalti jika pemain lupa menekan "UNO!".
      */
     function switchTurn() {
         if (!gameState.gameActive) return;
 
         // Jika giliran pemain yang akan berakhir...
         if (gameState.currentPlayer === 'player') {
-            // LANGSUNG UBAH STATUS, kunci pemain agar tidak bisa klik lagi.
+            // Langsung ubah status untuk mencegah pemain klik kartu lagi.
             gameState.currentPlayer = 'bot';
             ui.gameMessage.textContent = 'Giliran Bot...';
             
-            // Beri jeda 2 detik untuk kesempatan menekan UNO & bot berpikir
+            // Beri jeda 2 detik untuk memberi kesempatan menekan UNO.
             setTimeout(() => {
-                // Pengecekan penalti dilakukan di sini, setelah jeda
+                // Pengecekan penalti dilakukan di sini, setelah jeda.
                 if (gameState.playerHand.length === 1 && !gameState.playerDeclaredUno) {
-                    ui.gameMessage.textContent = 'Lupa menekan UNO! Anda mengambil 2 kartu penalti.';
+                    ui.gameMessage.textContent = 'Anda lupa menekan UNO! Penalti +2 kartu.';
                     drawCards('player', 2);
-                    renderGame(); // Perbarui tampilan setelah kena penalti
+                    renderGame();
                 }
                 
-                gameState.playerDeclaredUno = false; // Reset status untuk giliran berikutnya
-                botTurn();
+                gameState.playerDeclaredUno = false; // Reset status untuk giliran berikutnya.
+                botTurn(); // Mulai giliran bot.
 
             }, 2000);
         } else {
-            // Jika giliran bot yang berakhir, langsung pindah ke pemain
+            // Jika giliran bot yang berakhir, langsung pindah ke pemain.
             gameState.currentPlayer = 'player';
             ui.gameMessage.textContent = 'Giliran Anda!';
             highlightPlayableCards();
         }
     }
 
+    /**
+     * Proses utama saat sebuah kartu dimainkan.
+     * @param {string} player - 'player' atau 'bot'.
+     * @param {number} cardIndex - Indeks kartu yang dimainkan di dalam array tangan.
+     */
     function playCard(player, cardIndex) {
         const hand = (player === 'player') ? gameState.playerHand : gameState.botHand;
         const card = hand.splice(cardIndex, 1)[0];
         gameState.discardPile.push(card);
         
-        gameState.playerDeclaredUno = false;
+        gameState.playerDeclaredUno = false; // Reset status UNO setiap main kartu.
         
         if (card.color !== 'Wild') {
             gameState.currentColor = card.color;
@@ -229,11 +304,13 @@ document.addEventListener('DOMContentLoaded', () => {
         applyCardEffect(card, player);
         renderGame();
 
+        // Cek kondisi kemenangan.
         if (hand.length === 0) {
             endRound(player);
             return;
         }
         
+        // Logika setelah kartu dimainkan.
         if (card.color === 'Wild') {
             showColorPicker(player);
         } else if (['Skip', 'Reverse', 'DrawTwo'].includes(card.value)) {
@@ -246,19 +323,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    /**
+     * Aksi saat pemain mengklik dek untuk mengambil kartu.
+     */
     function drawCardFromDeck() {
         if (!gameState.gameActive || gameState.currentPlayer !== 'player' || gameState.deck.length === 0) return;
         drawCards('player', 1);
         ui.gameMessage.textContent = `Anda mengambil kartu. Giliran dilewati.`;
         renderGame();
-        // Langsung panggil switchTurn agar alur jeda dan giliran tetap konsisten
+        // Langsung panggil switchTurn agar alur jeda dan giliran tetap konsisten.
         switchTurn();
     }
     
+    /**
+     * Menampilkan pop-up pemilih warna setelah kartu Wild dimainkan.
+     * @param {string} player - 'player' atau 'bot'.
+     */
     function showColorPicker(player) {
         if (player === 'player') {
             ui.colorPickerOverlay.classList.add('active');
         } else {
+            // Bot akan memilih warna yang paling banyak dimilikinya.
             const colorsInHand = gameState.botHand.map(card => card.color).filter(color => color !== 'Wild');
             if (colorsInHand.length === 0) {
                 handleColorChoice('red'); return;
@@ -271,6 +356,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    /**
+     * Menangani pilihan warna dari pemain atau bot.
+     * @param {string} color - Warna yang dipilih.
+     */
     function handleColorChoice(color) {
         gameState.currentColor = color;
         ui.gameMessage.textContent = `Warna diubah menjadi ${color}.`;
@@ -283,23 +372,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // BAGIAN 5: Logika Bot & Alur Permainan
     // =================================================================
 
+    /**
+     * Logika untuk giliran Bot. Bot akan "berpikir" selama 1.5 detik.
+     */
     function botTurn() {
         if (!gameState.gameActive || gameState.currentPlayer !== 'bot') return;
         ui.gameMessage.textContent = 'Bot sedang berpikir...';
         
-        // Logika berpikir bot dipisah agar pesan bisa muncul dulu
+        // Pisahkan logika berpikir agar pesan bisa muncul dulu.
         setTimeout(() => {
             const topCard = gameState.discardPile[gameState.discardPile.length - 1];
+            // 1. Cari kartu berwarna yang bisa dimainkan.
             let playableCardIndex = gameState.botHand.findIndex(card => card.color !== 'Wild' && isValidMove(card, topCard));
+            // 2. Jika tidak ada, cari kartu Wild.
             if (playableCardIndex === -1) {
                 playableCardIndex = gameState.botHand.findIndex(card => card.color === 'Wild' && isValidMove(card, topCard));
             }
+            // 3. Validasi aturan Wild Draw Four.
             if (playableCardIndex !== -1 && gameState.botHand[playableCardIndex].value === 'WildDrawFour') {
                 if (gameState.botHand.some(c => c.color === gameState.currentColor)) {
-                    playableCardIndex = -1;
+                    playableCardIndex = -1; // Tidak boleh main jika ada warna cocok.
                 }
             }
 
+            // 4. Mainkan kartu atau ambil dari dek.
             if (playableCardIndex !== -1) {
                 playCard('bot', playableCardIndex);
             } else {
@@ -307,17 +403,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     drawCards('bot', 1);
                     ui.gameMessage.textContent = 'Bot mengambil satu kartu.';
                     renderBotHand();
-                    // Setelah ambil, giliran pindah ke pemain
                     setTimeout(switchTurn, 1000);
                 } else {
-                    switchTurn(); // Jika dek kosong
+                    switchTurn(); // Jika dek kosong.
                 }
             }
-        }, 1500); // Waktu bot "berpikir"
+        }, 1500);
     }
     
+    /**
+     * Menangani event saat pemain mengklik kartu di tangannya.
+     * @param {Event} e - Event object dari klik.
+     */
     function handlePlayerCardClick(e) {
-        // Guard clause ini sekarang akan bekerja dengan benar
+        // Guard clause untuk memastikan hanya pemain yang bisa klik di gilirannya.
         if (!gameState.gameActive || gameState.currentPlayer !== 'player') return;
         
         const cardElement = e.target.closest('.card');
@@ -332,6 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
+        // Validasi aturan Wild Draw Four.
         if (card.value === 'WildDrawFour' && gameState.playerHand.some(c => c.color === gameState.currentColor)) {
             alert('Anda tidak bisa memainkan Wild +4 karena masih punya kartu dengan warna yang cocok!');
             return;
@@ -339,6 +439,10 @@ document.addEventListener('DOMContentLoaded', () => {
         playCard('player', cardIndex);
     }
 
+    /**
+     * Mengakhiri ronde, menghitung kemenangan/kekalahan, dan memeriksa Game Over.
+     * @param {string} winner - Pemenang ronde ('player' atau 'bot').
+     */
     function endRound(winner) {
         gameState.gameActive = false;
         
@@ -357,10 +461,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    /**
+     * Memulai ronde baru setelah pemain memasang taruhan.
+     * @param {number} bet - Jumlah taruhan.
+     */
     function startGame(bet) {
         gameState.playerBalance -= bet;
         updateBalanceDisplay();
         
+        // Reset semua state permainan untuk ronde baru.
         Object.assign(gameState, {
             gameActive: true,
             currentBet: bet,
@@ -374,6 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shuffleDeck(gameState.deck);
         dealInitialCards();
 
+        // Pastikan kartu pertama bukan Wild Draw Four.
         let firstCard = gameState.deck.pop();
         while (firstCard.value === 'WildDrawFour') {
             gameState.deck.push(firstCard);
@@ -387,6 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ui.gameMessage.textContent = 'Giliran Anda untuk bermain!';
         renderGame();
         
+        // Jika kartu pertama adalah Wild, pemain pertama harus memilih warna.
         if (gameState.discardPile[0].color === 'Wild') {
             setTimeout(() => showColorPicker('player'), 500);
         }
@@ -396,7 +507,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // BAGIAN 6: Event Listeners
     // =================================================================
 
+    /**
+     * Mendaftarkan semua event listener untuk interaksi UI.
+     */
     function setupEventListeners() {
+        // Tombol untuk memulai ronde.
         ui.startRoundBtn.addEventListener('click', () => {
             const betAmount = parseInt(ui.betInput.value);
             if (isNaN(betAmount) || betAmount < 100) return alert("Taruhan minimal adalah $100.");
@@ -405,9 +520,12 @@ document.addEventListener('DOMContentLoaded', () => {
             startGame(betAmount);
         });
         
+        // Klik pada area tangan pemain.
         ui.playerHand.addEventListener('click', handlePlayerCardClick);
+        // Klik pada dek untuk mengambil kartu.
         ui.deck.addEventListener('click', drawCardFromDeck);
 
+        // Tombol UNO.
         ui.unoButton.addEventListener('click', () => {
             if (gameState.playerHand.length !== 1) {
                 ui.gameMessage.textContent = 'Salah pencet UNO! Anda mendapat 2 kartu penalti.';
@@ -419,12 +537,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Pilihan warna pada pop-up.
         ui.colorChoices.addEventListener('click', (e) => {
             if (e.target.classList.contains('color-btn')) {
                 handleColorChoice(e.target.dataset.color);
             }
         });
 
+        // Tombol untuk memulai ulang game setelah Game Over.
         ui.restartGameBtn.addEventListener('click', () => {
             gameState.playerBalance = 5000;
             updateBalanceDisplay();
@@ -434,6 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inisialisasi awal saat halaman dimuat.
     updateBalanceDisplay();
     setupEventListeners();
 });
