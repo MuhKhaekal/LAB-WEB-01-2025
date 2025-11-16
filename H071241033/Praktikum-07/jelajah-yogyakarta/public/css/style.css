@@ -1,0 +1,200 @@
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============================== */
+/*          COLOR STYLING         */
+/* ============================== */
+
+.bg-dark-gray {
+    background-color: #3b3b3b;
+}
+
+.bg-gradient {
+    background-color: #85795d;
+}
+.bg-beige {
+    background-color: #e5e1d5;
+}
+
+.text-beige {
+    color: #e5e1d5;
+}
+.hover\:text-beige:hover {
+    color: #e5e1d5;
+}
+
+.bg-white-bone {
+    background-color: #F7F6F0;
+}
+
+.hover\:bg-white-bone:hover {
+    background-color: #F7F6F0;
+}
+
+.bg-mocha {
+    background-color: #382a1c;
+}
+.hover\:bg-mocha:hover {
+    background-color: #382a1c;
+}
+
+.text-mocha {
+    color: #382a1c;
+}
+
+.bg-sekunder {
+    background-color: #ca9f32;
+}
+.hover\:bg-sekunder:hover {
+    background-color: #ca9f32;
+}
+.hover\:border-sekunder:hover {
+    border-color: #ca9f32;
+}
+
+.text-sekunder {
+    color: #ca9f32;
+}
+.hover\:text-sekunder:hover {
+    color: #ca9f32;
+}
+
+.border-beige {
+    border-color: #e5e1d5;
+}
+.border-mocha {
+    border-color: #382a1c;
+}
+
+
+/* ============================== */
+/*         SHADOW STYLING         */
+/* ============================== */
+
+.hover-shadow-gold {
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.hover-shadow-gold:hover {
+    box-shadow: 0 18px 16px -4px rgba(202, 159, 50, 0.3); 
+}
+
+
+/* ============================== */
+/*              FONT              */
+/* ============================== */
+.red-hat-display {
+    font-family: "Red Hat Display", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.archivo-black-regular {
+    font-family: "Archivo Black", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.eagle-lake-regular {
+    font-family: "Eagle Lake", serif;
+    font-style: normal;
+}
+
+.playfair-display {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+h1 span {
+    font-size: 35px;
+}
+
+.hero-title {
+    font-size: 10rem;
+    font-weight: 900;
+    letter-spacing: -3px;
+    text-transform: uppercase;
+    color: #e5e1d5;
+}
+
+
+/* ============================== */
+/*           ANIMATION            */
+/* ============================== */
+@keyframes slide-down {
+    from {
+        transform: translateY(-500px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-down {
+    animation: slide-down 1s ease-out forwards;
+}
+
+
+/* ============================== */
+/*           UIVERSE.IO           */
+/* ============================== */
+
+.button {
+    line-height: 1;
+    text-decoration: none;
+    display: inline-flex;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--clr);
+    color: #fff;
+    border-radius: 10rem;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    padding-left: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.3s;
+}
+
+.button__icon-wrapper {
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    color: var(--clr);
+    background-color: #fff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.button:hover {
+    background-color: #ca9f32;
+}
+
+.button:hover .button__icon-wrapper {
+    color: #ca9f32;
+}
+
+.button__icon-svg--copy {
+    position: absolute;
+    transform: translateY(-150%);
+}
+
+.button:hover .button__icon-svg:first-child {
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(150%);
+}
+
+.button:hover .button__icon-svg--copy {
+    transition: transform 0.3s ease-in-out 0.1s;
+    transform: translate(0);
+}
